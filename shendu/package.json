@@ -1,0 +1,15 @@
+{
+  "name": "shendu-journal",
+  "version": "5.2.2",
+  "private": true,
+  "type": "module",
+  "description": "慎独：自托管个人复盘系统",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "NODE_ENV=development node --watch server.mjs",
+    "check": "node --check server.mjs && node --check public/app.js"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}

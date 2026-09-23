@@ -1,0 +1,38 @@
+services:
+  shendu:
+    build: .
+    container_name: shendu
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      TZ: Asia/Shanghai
+      SHENDU_MASTER_KEY_PATH: /app/data/backup-master.key
+    volumes:
+      - ./data:/app/data
+      - ./tmp:/app/tmp
+    networks: [shendu_net]
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: shendu-caddy
+    restart: unless-stopped
+    depends_on:
+      shendu:
+        condition: service_healthy
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [shendu_net]
+
+networks:
+  shendu_net:
+
+volumes:
+  caddy_data:
+  caddy_config:
